@@ -1,20 +1,21 @@
 require_relative '../config/environment'
 require_relative '../db/seeds.rb'
 require "tty-prompt"
-
+ 
 PROMPT = TTY::Prompt.new
-
-def welcome_menu
-    greeting = "What would you like to do?"
-    PROMPT.select(greeting) do |menu|
-      menu.choice "create new user", 1
-      menu.choice "login", 2
-      menu.choice "quit", 3
-    end
-end
 
 def refresh
   system("clear")
+end
+
+def welcome_menu
+  refresh
+  greeting = "What would you like to do?"
+  PROMPT.select(greeting) do |menu|
+    menu.choice "create new user", 1
+    menu.choice "login", 2
+    menu.choice "quit", 3
+  end
 end
 
 ###### user creation/login menu options ##########
@@ -40,6 +41,7 @@ end
 
 def locate_user(username_input)
   user = User.find_by(username: username_input)
+  File.open("userfile.txt", 'w') { |file| file.write(user.id.to_s) }
   if !user
     refresh
     puts "This account does not appear to exist"
@@ -82,30 +84,27 @@ def search_options
   while true
     message = "Add book to reading list or return to previous menu:"
     choice = PROMPT.select(message) do |menu|
-      menu.choice "book title", 1
-      menu.choice 'return', 2
-    end
-    case choice
-    when 1
-      save_book
-    when 2
+      BOOKS_ARRAY.each do |book_obj|
+        menu.choice book_obj[:title], book_obj
+      end
+      menu.choice "quit"
+    end 
+    if choice.is_a?(Book)
+      add_to_reading_list(choice)
+    else 
       refresh
       break
     end
   end
 end
 
-# def save_book
-#   message = "Please enter the title of the book you would like to save to your reading list:"
-#   book_selection = PROMPT.ask(message, required: true, convert: :string)
-#   save_to_list(book_selection)
-# end
-
-# def save_to_list(book_selection)
-#   new_list_item = Book.find_or_create_by(title: book_selection)
-#   puts Book.all
-# end
-
+def add_to_reading_list(choice)
+  user = File.read("userfile.txt")
+  active_user = User.find_by(id: user)
+  ub = UserBook.create(user_id: active_user.id, book_id: choice.id)
+  refresh
+  main_menu
+end
 
 ########## view reading list ###############
 
