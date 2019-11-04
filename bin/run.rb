@@ -41,11 +41,11 @@ end
 
 def locate_user(username_input)
   user = User.find_by(username: username_input)
-  File.open("userfile.txt", 'w') { |file| file.write(user.id.to_s) }
   if !user
     refresh
     puts "This account does not appear to exist"
   else
+    File.open("userfile.txt", 'w') { |file| file.write(user.id.to_s) }
     main_menu
   end
 end
@@ -88,6 +88,7 @@ def search_options
         menu.choice book_obj[:title], book_obj
       end
       menu.choice "quit"
+      BOOKS_ARRAY.clear
     end 
     if choice.is_a?(Book)
       add_to_reading_list(choice)

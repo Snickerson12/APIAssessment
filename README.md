@@ -1,14 +1,11 @@
-Create a command line application that allows you to use the Google Books API to search for books and construct a reading list. 
+Google Books CLI Application
 
-You do not have to use a private GitHub repo for this.
+Features:
 
-This application should allow you to:
-Type in a query and display a list of 5 books matching that query.
-Each item in the list should include the book's author, title, and publishing company.
-A user should be able to select a book from the five displayed to save to a “Reading List”
+Users can search the Google Books API for results related to a search query and save the results to a personal reading list. 
 
-View a “Reading List” with all the books the user has selected from their queries -- this is a local reading list and not tied to Google Books’s account features.
+Overview:
 
-For programming language, choose any language you want as long as it is not the same language you chose to review in the Code Review section above. Feel free to use a library (or not) for the Google Book call or JSON parsing.
+This Ruby command line interface application allows users to query the Google Books API and view the first five applicable search results. Users can then select a book from the list to save to a reading list associated to that user. 
 
-Please do not add any additional features. 
+Each book displayed in the search results includes the book title, author, and publisher. Any books selected to be added to the reading list can be accessed by that user. Reading list items are locally saved separate from the Google Book's account feature 
