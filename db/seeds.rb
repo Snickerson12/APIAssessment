@@ -1,4 +1,4 @@
-# THIS IS WHERE WE GET API DATA
+# Get API Data
 require 'rest-client'
 require 'json'
 require 'pry'
